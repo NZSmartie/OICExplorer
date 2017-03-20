@@ -1,0 +1,3 @@
+[submodule "CoAP.Net"]
+	path = CoAP.Net
+	url = https://github.com/NZSmartie/CoAP.Net

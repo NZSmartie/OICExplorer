@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:converters="clr-namespace:CoapTest.Converters"
+                  xmlns:local="clr-namespace:CoapTest"
+                  x:Class="CoapTest.ResourcePage">
+    <MasterDetailPage.Resources>
+        <ResourceDictionary>
+            <converters:CollectionCountConverter x:Key="CollectionCountConverter"/>
+        </ResourceDictionary>
+    </MasterDetailPage.Resources>
+    <MasterDetailPage.ToolbarItems>
+        <ToolbarItem Text="Get" 
+                     Command="{Binding ExecuteResourceCommand}" 
+                     CommandParameter="{x:Static local:CommandResourceType.Get}" 
+                     Icon="{converters:ImageResource download.png}" />
+        <ToolbarItem Text="Put" 
+                     Command="{Binding ExecuteResourceCommand}" 
+                     CommandParameter="{x:Static local:CommandResourceType.Put}" 
+                     Icon="{converters:ImageResource upload.png}"/>
+        <ToolbarItem Text="Post" 
+                     Command="{Binding ExecuteResourceCommand}" 
+                     CommandParameter="{x:Static local:CommandResourceType.Post}" 
+                     Icon="{converters:ImageResource add.png}"/>
+        <ToolbarItem Text="Delete" 
+                     Command="{Binding ExecuteResourceCommand}" 
+                     CommandParameter="{x:Static local:CommandResourceType.Delete}" 
+                     Icon="{converters:ImageResource remove.png}"/>
+    </MasterDetailPage.ToolbarItems>
+    <MasterDetailPage.Master>
+        <ContentPage Title="Does anyone ever see this?!">
+            <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="{converters:ImageResource node.png}" StyleClass="Thumbnail" />
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="{Binding CoapDevice.HostName}" StyleClass="Header"/>
+                        <Label Text="{Binding CoapDevice.Resources, Converter={StaticResource CollectionCountConverter}, StringFormat=\{0\} Resources}" StyleClass="Subheader"/>
+                    </StackLayout>
+                </StackLayout>
+                <ListView x:Name="DeviceResoucesListView" 
+                          ItemsSource="{Binding CoapDevice.Resources}"
+                          ItemSelected="OnDeviceResouceSelected">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                                    <Image Source="{converters:ImageResource blank.png}"/>
+                                    <Label Text="{Binding URIReference}" StyleClass="Body"/>
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                                        <!-- Quick Actions for the resource (Play/Pause, On/Off, Set Slider, etc...) -->
+                                        <Image Source="{converters:ImageResource blank.png}"/>
+                                        <Image Source="{converters:ImageResource blank.png}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <ContentPage>
+            <StackLayout Orientation="Vertical">
+                <Label>Resource Metadata goes here</Label>
+                <Entry x:Name="ResourceUriEntry" Text="{Binding ResourceUri}" StyleClass="Body" />
+                <StackLayout Orientation="Horizontal">
+                    <Picker x:Name="MessageTypePicker" Title="Type" StyleClass="Body"/>
+                    <Picker x:Name="AcceptPicker" Title="Accept" StyleClass="Body"/>
+                </StackLayout>
+                <ScrollView VerticalOptions="Fill" Orientation="Vertical">
+                    <Label x:Name="Output" FormattedText="{Binding MessageLog, Mode=OneWay}" />
+                </ScrollView>
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>
