@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+using Rg.Plugins.Popup.Extensions;
+
 using CoapTest.Extensions;
 using CoapTest.Models;
 using CoapTest.Services;
@@ -185,6 +187,11 @@ namespace CoapTest
             {
                 ResourceUri = "coap://" + CoapDevice.HostName + ((CoapResource)e.SelectedItem).URIReference;
             }
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushPopupAsync(new Dialogs.ColourPickerDialog());
         }
     }
 }

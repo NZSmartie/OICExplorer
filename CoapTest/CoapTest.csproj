@@ -39,8 +39,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ColorPicker.cs" />
     <Compile Include="Converters\CollectionCountConverter.cs" />
     <Compile Include="Converters\ImageResourceExtension.cs" />
+    <Compile Include="Dialogs\ColourPickerDialog.xaml.cs">
+      <DependentUpon>ColourPickerDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\INotifyPropertyChanged.cs" />
     <Compile Include="Interfaces\ITabPage.cs" />
     <Compile Include="Models\CoapDevice.cs" />
@@ -83,6 +87,12 @@
       <Project>{41d3dcbd-4930-442e-912e-0acba5c0d11c}</Project>
       <Name>CoAP.Net</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dialogs\ColourPickerDialog.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
