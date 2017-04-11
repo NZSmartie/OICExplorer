@@ -5,7 +5,7 @@ using Android.OS;
 
 namespace CoapTest.Droid
 {
-    [Activity(Label = "CoapTest", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "CoapTest", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/AppTheme")]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsApplicationActivity
     {
         protected override void OnCreate(Bundle bundle)
