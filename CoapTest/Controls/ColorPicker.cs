@@ -10,7 +10,7 @@ namespace CoapTest.Controls
 {
     public class ColorPickerView : View
     {
-        public static readonly BindableProperty ColorProperty = BindableProperty.Create(nameof(Color), typeof(Color), typeof(ColorPickerView), Color.Transparent);
+        public static readonly BindableProperty ColorProperty = BindableProperty.Create(nameof(Color), typeof(Color), typeof(ColorPickerView), Color.White);
 
         public Color Color
         {

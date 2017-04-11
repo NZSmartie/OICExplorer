@@ -49,7 +49,7 @@
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
                                         <!-- Quick Actions for the resource (Play/Pause, On/Off, Set Slider, etc...) -->
                                         <Image Source="{converters:ImageResource blank.png}"/>
-                                        <Button Image="{converters:ImageResource blank.png}" Clicked="Button_Clicked"/>
+                                        <Button Image="{converters:ImageResource palette.png}" Clicked="Button_Clicked"/>
                                     </StackLayout>
                                 </StackLayout>
                             </ViewCell>

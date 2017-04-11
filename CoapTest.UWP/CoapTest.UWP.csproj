@@ -119,6 +119,7 @@
   <ItemGroup>
     <Content Include="Assets\node.png" />
     <Content Include="Assets\blank.png" />
+    <Content Include="Assets\palette.png" />
     <Content Include="Assets\refresh.png" />
     <Content Include="Assets\remove.png" />
     <Content Include="Assets\upload.png" />
