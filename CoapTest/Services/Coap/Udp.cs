@@ -32,6 +32,8 @@ namespace CoapTest.Services
 
         public bool IsMulticast { get => _isMulticast; private set => _isMulticast = value; }
 
+        public bool IsSecure => false;
+
         public UdpEndPoint(UdpClient udpClient)
         {
             _udpClient = udpClient ?? throw new ArgumentNullException("udpClient");

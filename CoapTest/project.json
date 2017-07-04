@@ -3,15 +3,16 @@
   "dependencies": {
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.1",
+    "PeterO.Cbor": "2.5.2",
     "Rg.Plugins.Popup": "1.0.4",
     "System.ComponentModel": "4.3.0",
     "System.Net.NameResolution": "4.3.0",
     "System.Net.NetworkInformation": "4.3.0",
     "System.Net.Primitives": "4.3.0",
-    "Xamarin.Forms": "2.3.4.224"
+    "Xamarin.Forms": "2.3.4.247"
   },
   "frameworks": {
-    "netstandard1.3": {
+    "netstandard1.4": {
       "imports": "portable-net45+win8+wpa81+wp8"
     }
   }

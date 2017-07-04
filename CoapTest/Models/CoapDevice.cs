@@ -12,29 +12,45 @@ using CoapTest.Services;
 
 namespace CoapTest.Models
 {
-    public class CoapDevice : INotifyPropertyChanged
+    public interface IDevice
     {
-        private readonly UdpEndPoint _endPoint;
-        private string _hostName;
+        List<IDeviceResource> Resources { get; set; }
 
+        string BaseURI { get; }
+
+        string Name { get; }
+    }
+
+    public interface IDeviceResource
+    {
+        string URIReference { get; }
+
+        string Media { get; }
+
+        string Name { get; }
+
+        string Type { get; }
+
+        List<string> ResourceTypes { get; }
+
+        List<string> InterfaceDescription { get; }
+}
+
+    public class Device<TEndpoint> : INotifyPropertyChanged, IDevice where TEndpoint : class
+    {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public UdpEndPoint EndPoint { get => _endPoint; }
-        public string HostName
-        {
-            get => _hostName ?? _endPoint.Endpoint.Address.ToString();
-            set
-            {
-                _hostName = value;
-                PropertyChanged?.Invoke(this, () => HostName);
-            }
-        }
+        public TEndpoint EndPoint { get; }
 
-        public List<CoapResource> Resources { get; set; }
+        public virtual string BaseURI => null;
 
-        public CoapDevice(UdpEndPoint udpEndPoint)
+        public virtual string Name => null;
+
+        public List<IDeviceResource> Resources { get; set; }
+
+        public Device(TEndpoint udpEndPoint)
         {
-            _endPoint = udpEndPoint ?? throw new ArgumentNullException("udpEndPoint");
+            EndPoint = udpEndPoint ?? throw new ArgumentNullException(nameof(udpEndPoint));
         }
     }
 }

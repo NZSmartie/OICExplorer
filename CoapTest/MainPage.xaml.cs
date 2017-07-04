@@ -22,7 +22,7 @@ namespace CoapTest
 
         public Command RefreshDevicesCommand
         {
-            get => _refreshDevicesCommand ?? (_refreshDevicesCommand = new Command(refreshDevices, () => !IsDevicesRefreshing));
+            get => _refreshDevicesCommand ?? (_refreshDevicesCommand = new Command(RefreshDevices, () => !IsDevicesRefreshing));
         }
 
         private bool _isDevicesRefreshing = false;
@@ -37,10 +37,10 @@ namespace CoapTest
         }
 
 
-        private CoapService _coapService = DependencyService.Get<CoapService>();
+        private readonly IDeviceService _deviceService = DependencyService.Get<CoapService>();
 
-        private ObservableCollection<CoapDevice> _devices = new ObservableCollection<CoapDevice>();
-        public ObservableCollection<CoapDevice> Devices
+        private ObservableCollection<IDevice> _devices = new ObservableCollection<IDevice>();
+        public ObservableCollection<IDevice> Devices
         {
             get => _devices;
             set
@@ -50,8 +50,8 @@ namespace CoapTest
             }
         }
 
-        private CoapDevice _selectedDevice = null;
-        public CoapDevice SelectedDevice
+        private IDevice _selectedDevice = null;
+        public IDevice SelectedDevice
         {
             get => _selectedDevice; set
             {
@@ -60,16 +60,16 @@ namespace CoapTest
             }
         }
 
-        new public event PropertyChangedEventHandler PropertyChanged;
+        public new event PropertyChangedEventHandler PropertyChanged;
 
         public MainPage()
         {
             InitializeComponent();
             BindingContext = this;
 
-            _coapService.NewDevice += OnNewDeviceHandller;
+            _deviceService.NewDevice += OnNewDeviceHandller;
 
-            refreshDevices();
+            RefreshDevices();
         }
 
         private void OnNewDeviceHandller(object sender, NewCoapDeviceEventArgs eventArgs)
@@ -79,13 +79,13 @@ namespace CoapTest
             });
         }
 
-        private void refreshDevices()
+        private void RefreshDevices()
         {
             IsDevicesRefreshing = true;
             SelectedDevice = null;
             Devices.Clear();
 
-            _coapService.Discover();
+            _deviceService.Discover();
 
             Task.Run(async () =>
             {

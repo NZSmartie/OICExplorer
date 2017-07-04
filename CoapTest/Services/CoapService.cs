@@ -17,25 +17,37 @@ using Xamarin.Forms;
 [assembly: Dependency(typeof(CoapTest.Services.CoapService))]
 namespace CoapTest.Services
 {
+
     public class CoapMessageEventArgs : EventArgs
     {
-        public CoapDevice Device { get; set; }
+        public IDevice Device { get; set; }
 
         public CoapMessage Message { get; set; }
     }
 
     public class NewCoapDeviceEventArgs : EventArgs
     {
-        public CoapDevice CoapDevice;
+        public IDevice CoapDevice;
     }
 
-    public class CoapService
+    public class CoapService : IDeviceService
     {
         public const string MessageSend = "MessageSend";
 
+        public readonly Dictionary<string, CoAP.Net.Options.ContentFormatType> MediaList = new Dictionary<string, CoAP.Net.Options.ContentFormatType>
+        {
+            {"text/plain", CoAP.Net.Options.ContentFormatType.TextPlain },
+            {"application/link-format", CoAP.Net.Options.ContentFormatType.ApplicationLinkFormat },
+            {"application/xml", CoAP.Net.Options.ContentFormatType.ApplicationXml },
+            {"application/octet-stream", CoAP.Net.Options.ContentFormatType.ApplicationOctetStream },
+            {"application/exi", CoAP.Net.Options.ContentFormatType.ApplicationExi },
+            {"application/json", CoAP.Net.Options.ContentFormatType.ApplicationJson },
+            {"applicaiton/cbor",CoAP.Net.Options.ContentFormatType.ApplicationCbor },
+        };
+
         private readonly UdpEndPoint _localEndpoint;
         private readonly CoapClient _coapClient;
-        private List<IPAddress> _localaddresses = new List<IPAddress>();
+        private readonly List<IPAddress> _localAddresses = new List<IPAddress>();
 
         public List<CoapDevice> CoapDevices = new List<CoapDevice>();
 
@@ -51,24 +63,27 @@ namespace CoapTest.Services
             _localEndpoint.Bind();
             _coapClient = new CoapClient(_localEndpoint);
 
-            _coapClient.OnMessageReceived += CoAPOnMessageReceived;
+            _coapClient.OnMessageReceived += CoapOnMessageReceived;
 
             _coapClient.Listen();
 
             _addressTask = Task.Run(async () =>
             {
-                _localaddresses.AddRange(await Dns.GetHostAddressesAsync(Dns.GetHostName()));
+                _localAddresses.AddRange(await Dns.GetHostAddressesAsync(Dns.GetHostName()));
             });
         }
 
         
 
-        public async void SendMessage(CoapDevice device, CoapMessage message)
+        public async void SendMessage(IDevice device, CoapMessage message)
         {
-            await _coapClient.SendAsync(message, device.EndPoint);
+            var udpDevice = device as Device<UdpEndPoint> ??
+                            throw new ArgumentException($"{nameof(device)} is not of CoapDevice<UdpEndPoint>");
+
+            await _coapClient.SendAsync(message, udpDevice.EndPoint);
         }
 
-        private void CoAPOnMessageReceived(object sender, CoapMessageReceivedEventArgs e)
+        private void CoapOnMessageReceived(object sender, CoapMessageReceivedEventArgs e)
         {
             var device = CoapDevices.FirstOrDefault(d => d.EndPoint == e.Endpoint);
             bool newDevice = false;
@@ -83,7 +98,8 @@ namespace CoapTest.Services
             if(contentType != null)
             {
                 if (contentType.MediaType == CoAP.Net.Options.ContentFormatType.ApplicationLinkFormat)
-                    device.Resources = CoreLinkFormat.Parse(System.Text.Encoding.UTF8.GetString(e.Message.Payload));
+                    device.Resources = CoreLinkFormat.Parse(System.Text.Encoding.UTF8.GetString(e.Message.Payload))
+                        .Select(r => new CoapResourceWrapper(r) as IDeviceResource).ToList();
             }
 
             System.Diagnostics.Debug.WriteLine("Received message from {0}\n\t- Length: {1}\n\t- Payload: {2}",
@@ -121,7 +137,7 @@ namespace CoapTest.Services
             };
             using (var endpoint = new UdpEndPoint(new IPEndPoint(IPAddress.Parse(CoAP.Net.Consts.MulticastIPv4), CoAP.Net.Consts.Port)))
             {
-                foreach (var address in _localaddresses)
+                foreach (var address in _localAddresses)
                 {
                     // Todo: Support IPv6 Multicasting
                     if (address.AddressFamily != AddressFamily.InterNetwork)

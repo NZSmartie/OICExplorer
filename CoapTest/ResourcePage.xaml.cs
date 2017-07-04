@@ -27,25 +27,25 @@ namespace CoapTest
     {
         new public event PropertyChangedEventHandler PropertyChanged;
 
-        private CoapService _coapService = DependencyService.Get<CoapService>();
+        private readonly IDeviceService _coapService = DependencyService.Get<CoapService>();
 
-        public readonly Dictionary<string, CoAP.Net.Options.ContentFormatType> AcceptList = new Dictionary<string, CoAP.Net.Options.ContentFormatType>
+        public readonly List<string> AcceptList = new List<string>
         {
-            {"text/plain", CoAP.Net.Options.ContentFormatType.TextPlain },
-            {"application/link-format", CoAP.Net.Options.ContentFormatType.ApplicationLinkFormat },
-            {"application/xml", CoAP.Net.Options.ContentFormatType.ApplicationXml },
-            {"application/octet-stream", CoAP.Net.Options.ContentFormatType.ApplicationOctetStream },
-            {"application/exi", CoAP.Net.Options.ContentFormatType.ApplicationExi },
-            {"application/json", CoAP.Net.Options.ContentFormatType.ApplicationJson },
-            {"applicaiton/cbor",CoAP.Net.Options.ContentFormatType.ApplicationCbor },
+            "text/plain",
+            "application/link-format",
+            "application/xml",
+            "application/octet-stream",
+            "application/exi",
+            "application/json",
+            "applicaiton/cbor",
         };
 
-        public readonly Dictionary<string, CoAP.Net.CoapMessageType> MessageTypeList = new Dictionary<string, CoAP.Net.CoapMessageType>
+        public readonly Dictionary<string, DeviceMessageType> MessageTypeList = new Dictionary<string, DeviceMessageType>
         {
-            {"Confirmable", CoapMessageType.Confirmable},
-            {"Non-Confirmable", CoapMessageType.NonConfirmable },
-            {"Acknowledgement", CoapMessageType.Acknowledgement },
-            {"Reset", CoapMessageType.Reset},
+            {"Confirmable", DeviceMessageType.Confirmable},
+            {"Non-Confirmable", DeviceMessageType.NonConfirmable },
+            {"Acknowledgement", DeviceMessageType.Acknowledgement },
+            {"Reset", DeviceMessageType.Reset},
         };
 
         private Command _executeResourceCommand;
@@ -72,8 +72,8 @@ namespace CoapTest
             }
         }
 
-        private CoapDevice _device;
-        public CoapDevice CoapDevice
+        private IDevice _device;
+        public IDevice CoapDevice
         {
             get => _device;
             set
@@ -89,7 +89,7 @@ namespace CoapTest
             InitializeComponent();
 
             AcceptPicker.Items.Add("(Default)");
-            foreach (var acceptType in AcceptList.Keys)
+            foreach (var acceptType in AcceptList)
                 AcceptPicker.Items.Add(acceptType);
 
             AcceptPicker.SelectedIndex = 0;
@@ -122,7 +122,7 @@ namespace CoapTest
             {
                 MessageLog.Spans.Add(new Span
                 {
-                    Text = string.Format("Received message from {0} - {1}\n", CoapDevice.HostName, e.Message),
+                    Text = $"Received message from {CoapDevice.BaseURI} - {e.Message}\n",
                     ForegroundColor = Color.LightSkyBlue
                 });
                 if (e.Message.Options.Contains<CoAP.Net.Options.ContentFormat>())
@@ -139,7 +139,7 @@ namespace CoapTest
                     {
                         MessageLog.Spans.Add(new Span
                         {
-                            Text = string.Format("Binary Data ({0} bytes)\n", e.Message.Payload.Length)
+                            Text = $"Binary Data ({e.Message.Payload.Length} bytes)\n"
                         });
                     }
                 }
@@ -156,7 +156,7 @@ namespace CoapTest
 
         private void OnNewDevice(object sender, NewCoapDeviceEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine(string.Format("For new device evvent for {0}", e.CoapDevice.HostName));
+            System.Diagnostics.Debug.WriteLine(string.Format("For new device evvent for {0}", e.CoapDevice.BaseURI));
         }
 
         private void DoThatThing(CommandResourceType action)
@@ -172,7 +172,7 @@ namespace CoapTest
             _coapService.SendMessage(CoapDevice, message);
 
             MessageLog.Spans.Add(new Span {
-                Text = string.Format("Sending Message to {0}: {1}\n", CoapDevice.HostName, message),
+                Text = string.Format("Sending Message to {0}: {1}\n", CoapDevice.BaseURI, message),
                 ForegroundColor = Color.PaleVioletRed
             });
         }
@@ -183,10 +183,10 @@ namespace CoapTest
             if(MasterBehavior == MasterBehavior.Popover)
                 IsPresented = false;
 
-            if (e.SelectedItem != null)
-            {
-                ResourceUri = "coap://" + CoapDevice.HostName + ((CoapResource)e.SelectedItem).URIReference;
-            }
+            if (e.SelectedItem == null)
+                return;
+
+            ResourceUri = new UriBuilder(CoapDevice.BaseURI) { Path = ((IDeviceResource)e.SelectedItem).URIReference }.ToString();
         }
 
         private void Button_Clicked(object sender, EventArgs e)

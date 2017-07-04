@@ -52,6 +52,9 @@
     <Compile Include="ResourcePage.xaml.cs">
       <DependentUpon>ResourcePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\Coap\CoapResourceWrapper.cs" />
+    <Compile Include="Services\Coap\CoapDevice.cs" />
+    <Compile Include="Services\IDeviceService.cs" />
     <Compile Include="Services\CoapService.cs" />
     <Compile Include="Services\Coap\Udp.cs" />
     <Compile Include="MainPage.xaml.cs">
