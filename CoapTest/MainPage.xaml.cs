@@ -7,25 +7,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 using CoapTest.Extensions;
-using CoapTest.Models;
 using CoapTest.Services;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using OICNet;
 
 namespace CoapTest
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage, INotifyPropertyChanged
     {
-        private Command _refreshDevicesCommand = null;
+        private Command _refreshDevicesCommand;
 
-        public Command RefreshDevicesCommand
-        {
-            get => _refreshDevicesCommand ?? (_refreshDevicesCommand = new Command(RefreshDevices, () => !IsDevicesRefreshing));
-        }
+        public Command RefreshDevicesCommand => _refreshDevicesCommand ?? (_refreshDevicesCommand = new Command(RefreshDevices, () => !IsDevicesRefreshing));
 
-        private bool _isDevicesRefreshing = false;
+        private bool _isDevicesRefreshing;
 
         public bool IsDevicesRefreshing
         {
@@ -37,10 +34,10 @@ namespace CoapTest
         }
 
 
-        private readonly IDeviceService _deviceService = DependencyService.Get<CoapService>();
+        private readonly OicService _deviceService = DependencyService.Get<OicService>();
 
-        private ObservableCollection<IDevice> _devices = new ObservableCollection<IDevice>();
-        public ObservableCollection<IDevice> Devices
+        private ObservableCollection<OicDevice> _devices = new ObservableCollection<OicDevice>();
+        public ObservableCollection<OicDevice> Devices
         {
             get => _devices;
             set
@@ -50,10 +47,11 @@ namespace CoapTest
             }
         }
 
-        private IDevice _selectedDevice = null;
-        public IDevice SelectedDevice
+        private OicDevice _selectedDevice;
+        public OicDevice SelectedDevice
         {
-            get => _selectedDevice; set
+            get => _selectedDevice;
+            set
             {
                 _selectedDevice = value;
                 PropertyChanged?.Invoke(this, () => SelectedDevice);
@@ -72,10 +70,10 @@ namespace CoapTest
             RefreshDevices();
         }
 
-        private void OnNewDeviceHandller(object sender, NewCoapDeviceEventArgs eventArgs)
+        private void OnNewDeviceHandller(object sender, NewOicDeviceEventArgs eventArgs)
         {
             Device.BeginInvokeOnMainThread(() => {
-                Devices.Add(eventArgs.CoapDevice);
+                Devices.Add(eventArgs.Device);
             });
         }
 
@@ -99,7 +97,7 @@ namespace CoapTest
         {
             Navigation.PushAsync(new ResourcePage()
             {
-                CoapDevice = SelectedDevice
+                OicDevice = SelectedDevice
             });
         }
     }
