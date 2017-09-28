@@ -1,36 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converters="clr-namespace:CoapTest.Converters"
-             xmlns:local="clr-namespace:CoapTest"
-             x:Class="CoapTest.MainPage">
+<r:ReactiveContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:r="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+                       xmlns:converters="clr-namespace:CoapTest.Converters"
+                       xmlns:local="clr-namespace:CoapTest"
+                       x:Class="CoapTest.MainPage"
+                       x:TypeArguments="local:ViewModels.DevicesViewModel">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:CollectionCountConverter x:Key="CollectionCountConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Name="Refresh" Icon="{converters:ImageResource refresh.png}" Order="Primary" Priority="0" Command="{Binding RefreshDevicesCommand}"/>
+        <ToolbarItem x:Name="RefreshToolbarIcon" Name="Refresh" Icon="{converters:ImageResource refresh.png}" Order="Primary" Priority="0"/>
     </ContentPage.ToolbarItems>
     <ListView x:Name="DeviceListView" 
-              ItemsSource="{Binding Devices}"
-              IsPullToRefreshEnabled="True"
-              RefreshCommand="{Binding RefreshDevicesCommand}"
-              IsRefreshing="{Binding IsDevicesRefreshing, Mode=OneWay}"
-              SelectedItem="{Binding SelectedDevice, Mode=TwoWay}"
-              ItemTapped="OnDeviceSelected">
+              IsPullToRefreshEnabled="True">
         <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout Orientation="Horizontal">
-                        <Image Source="{converters:ImageResource node.png}" StyleClass="Thumbnail" />
-                        <StackLayout Orientation="Vertical">
-                            <Label Text="{Binding HostName}" StyleClass="Header" />
-                            <Label Text="{Binding Path=Resources, Converter={StaticResource CollectionCountConverter}, StringFormat=\{0\} Resource(s)}" StyleClass="Subheader"/>
-                        </StackLayout>
+        <DataTemplate>
+            <ViewCell>
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="{converters:ImageResource node.png}" StyleClass="Thumbnail" />
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="{Binding HostName}" StyleClass="Header" />
+                        <Label Text="{Binding Path=Resources, Converter={StaticResource CollectionCountConverter}, StringFormat=\{0\} Resource(s)}" StyleClass="Subheader"/>
                     </StackLayout>
-                </ViewCell>
-            </DataTemplate>
+                </StackLayout>
+            </ViewCell>
+        </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
-</ContentPage>
+</r:ReactiveContentPage>

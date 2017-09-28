@@ -49,10 +49,12 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.NETCore.Portable.Compatibility" Version="1.0.2" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.3" />
     <PackageReference Include="NZSmartie.CoAPNet" Version="0.3.9" />
     <PackageReference Include="NZSmartie.CoAPNet.Udp" Version="0.3.9" />
-    <PackageReference Include="NZSmartie.OICNet" Version="0.3.1-pre49" />
-    <PackageReference Include="NZSmartie.OICNet.CoAP" Version="0.3.1-pre49" />
+    <PackageReference Include="NZSmartie.OICNet" Version="0.3.1-pre51" />
+    <PackageReference Include="NZSmartie.OICNet.CoAP" Version="0.3.1-pre51" />
+    <PackageReference Include="reactiveui" Version="7.4.0" />
     <PackageReference Include="reactiveui-xamforms" Version="7.4.0" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.0.4" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />

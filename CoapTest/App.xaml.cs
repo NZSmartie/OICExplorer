@@ -1,20 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using ReactiveUI;
+using ReactiveUI.XamForms;
+using Splat;
 using Xamarin.Forms;
+
+using CoapTest.Services;
+using CoapTest.ViewModels;
 
 namespace CoapTest
 {
-    public partial class App : Application
+    public partial class App : Application, IScreen
     {
+        public RoutingState Router { get; protected set; }
+
         public App()
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new MainPage());
+            var services = Locator.CurrentMutable;
+
+#if DEBUG
+            // Debug logging
+            services.RegisterConstant<ILogger>(new MyDebugLogger { Level = LogLevel.Debug });
+#endif
+
+            // Register logger for all require generic uses of Microsoft.Extensions.Logging.ILogger<T>
+            services.RegisterLogger<OicService>()
+                    .RegisterLogger<OICNet.OicClient>()
+                    .RegisterLogger<OICNet.OicResourceDiscoverClient>();
+            // App-wide services
+            services.RegisterLazySingleton(() => new OicService(), typeof(OicService));
+            // Register required ReactiveUI classes
+            services.RegisterConstant<IScreen>(this);
+            // View models
+            services.Register<IViewFor<DevicesViewModel>>(() => new MainPage());
+
+            Router = new RoutingState();
+            Router.NavigateAndReset
+                  .Execute(new DevicesViewModel())
+                  .Subscribe();
+
+            MainPage = new RoutedViewHost();
         }
 
         protected override void OnStart()

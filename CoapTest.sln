@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoapTest", "CoapTest\CoapTest.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoapTest", "CoapTest\CoapTest.csproj", "{67F9D3A8-F71E-4428-913F-C37AE82CDB24}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoapTest.Droid", "CoapTest.Droid\CoapTest.Droid.csproj", "{F0D9AB74-6DA7-4E28-9C78-4B573E582657}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -159,5 +159,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FD628F6D-0999-48D7-88FF-009F9C15D78A} = {38664F7E-E03D-4583-A82A-11D1DAFE4E58}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {77FB108C-6060-4F24-8DC0-14B114F37A7F}
 	EndGlobalSection
 EndGlobal

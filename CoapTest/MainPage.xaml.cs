@@ -1,103 +1,54 @@
-﻿using System.Runtime.InteropServices;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using ReactiveUI;
+using ReactiveUI.XamForms;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+using OICNet;
 
 using CoapTest.Extensions;
 using CoapTest.Services;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-using OICNet;
+using CoapTest.ViewModels;
 
 namespace CoapTest
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPage : ContentPage, INotifyPropertyChanged
+    public partial class MainPage : ReactiveContentPage<DevicesViewModel>
     {
-        private Command _refreshDevicesCommand;
-
-        public Command RefreshDevicesCommand => _refreshDevicesCommand ?? (_refreshDevicesCommand = new Command(RefreshDevices, () => !IsDevicesRefreshing));
-
-        private bool _isDevicesRefreshing;
-
-        public bool IsDevicesRefreshing
-        {
-            get => _isDevicesRefreshing;
-            set {
-                _isDevicesRefreshing = value;
-                PropertyChanged?.Invoke(this, () => IsDevicesRefreshing);
-            }
-        }
-
-
-        private readonly OicService _deviceService = DependencyService.Get<OicService>();
-
-        private ObservableCollection<OicDevice> _devices = new ObservableCollection<OicDevice>();
-        public ObservableCollection<OicDevice> Devices
-        {
-            get => _devices;
-            set
-            {
-                _devices = value;
-                PropertyChanged?.Invoke(this, () => Devices);
-            }
-        }
-
-        private OicDevice _selectedDevice;
-        public OicDevice SelectedDevice
-        {
-            get => _selectedDevice;
-            set
-            {
-                _selectedDevice = value;
-                PropertyChanged?.Invoke(this, () => SelectedDevice);
-            }
-        }
-
-        public new event PropertyChangedEventHandler PropertyChanged;
-
         public MainPage()
         {
             InitializeComponent();
-            BindingContext = this;
-
-            _deviceService.NewDevice += OnNewDeviceHandller;
-
-            RefreshDevices();
-        }
-
-        private void OnNewDeviceHandller(object sender, NewOicDeviceEventArgs eventArgs)
-        {
-            Device.BeginInvokeOnMainThread(() => {
-                Devices.Add(eventArgs.Device);
-            });
-        }
-
-        private void RefreshDevices()
-        {
-            IsDevicesRefreshing = true;
-            SelectedDevice = null;
-            Devices.Clear();
-
-            _deviceService.Discover();
-
-            Task.Run(async () =>
+            this.WhenActivated(disposable =>
             {
-                // Some arbatary delay, as the devices will respond over a lesiure period. 5 seconds is the default period
-                await Task.Delay(5000);
-                Device.BeginInvokeOnMainThread(() => IsDevicesRefreshing = false);
-            });
-        }
+                ViewModel.SelectedDevice = null;
 
-        private void OnDeviceSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-            Navigation.PushAsync(new ResourcePage()
-            {
-                OicDevice = SelectedDevice
+                this.OneWayBind(ViewModel, 
+                        vm => vm.Devices, 
+                        v => v.DeviceListView.ItemsSource)
+                    .DisposeWith(disposable);
+
+                this.BindCommand(ViewModel, 
+                        vm => vm.DiscoverDevicesCommand, 
+                        v => v.RefreshToolbarIcon)
+                    .DisposeWith(disposable);
+                
+                this.BindCommand(ViewModel,
+                        vm => vm.DiscoverDevicesCommand,
+                        v => v.DeviceListView,
+                        nameof(DeviceListView.Refreshing))
+                    .DisposeWith(disposable);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.IsRefreshing,
+                        v => v.DeviceListView.IsRefreshing)
+                    .DisposeWith(disposable);
+
+                this.Bind(ViewModel, 
+                        vm => vm.SelectedDevice, 
+                        v => v.DeviceListView.SelectedItem)
+                    .DisposeWith(disposable);
             });
         }
     }

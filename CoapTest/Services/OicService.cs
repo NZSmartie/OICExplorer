@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Splat;
 
-using CoAPNet;
+using CoAPNet.Udp;
 using OICNet;
 using OICNet.CoAP;
 
-using Xamarin.Forms;
-using CoAPNet.Udp;
-
-[assembly: Dependency(typeof(CoapTest.Services.OicService))]
 namespace CoapTest.Services
 {
-
     public class OicMessageEventArgs : EventArgs
     {
         public OicDevice Device { get; set; }
@@ -36,15 +32,19 @@ namespace CoapTest.Services
 
         private readonly OicResourceDiscoverClient _resourceDiscoveryClient;
 
-        public List<OicDevice> Devices = new List<OicDevice>();
+        private readonly ILogger<OicService> _logger;
 
         public event EventHandler<NewOicDeviceEventArgs> NewDevice;
 
-        public OicService()
-        {
-            _client = new OicClient();
+        public ObservableCollection<OicRemoteDevice> Devices => _resourceDiscoveryClient.Devices;
 
-            _resourceDiscoveryClient = new OicResourceDiscoverClient(_client);
+        public OicService(ILogger<OicService> logger = null)
+        {
+            _logger = logger ?? Locator.Current.GetLogger<OicService>();
+
+            _client = new OicClient(Locator.Current.GetLogger<OicClient>());
+
+            _resourceDiscoveryClient = new OicResourceDiscoverClient(_client, Locator.Current.GetLogger<OicResourceDiscoverClient>());
             _resourceDiscoveryClient.NewDevice += OnNewDevice;
 
             Task.Run(async () =>
@@ -57,14 +57,8 @@ namespace CoapTest.Services
                     if (address.AddressFamily != AddressFamily.InterNetwork)
                         continue;
 
-                    var localEndpoint = new CoapUdpEndPoint(address);
-                    await localEndpoint.BindAsync();
-                    localEndpoint.Client.Client.SetSocketOption(
-                        SocketOptionLevel.IP,
-                        SocketOptionName.MulticastInterface,
-                        address.GetAddressBytes());
-
-                    _client.AddTransport(new OicCoapTransport(localEndpoint));
+                    _logger?.LogInformation($"Binding to local interface ({address})");
+                    _client.AddTransport(new OicCoapTransport(new CoapUdpEndPoint(address, logger: Locator.Current.GetLogger<CoapUdpEndPoint>())));
                 }
             });
         }
@@ -76,27 +70,7 @@ namespace CoapTest.Services
 
         private void OnNewDevice(object sender, OicNewDeviceEventArgs e)
         {
-            Devices.Add(e.Device);
             NewDevice?.Invoke(this, new NewOicDeviceEventArgs { Device = e.Device });
-        }
-
-        private void OnReceivedMessage(object sender, OicDeviceReceivedMessageEventArgs e)
-        {
-            //var device = Devices.FirstOrDefault(d => (d as OicDevice)?.Endpoint == e.Device.Endpoint);
-
-            //var contentType = e.Message.Options.Get<CoAP.Net.Options.ContentFormat>();
-            //if (contentType != null)
-            //{
-            //    if (contentType.MediaType == CoAP.Net.Options.ContentFormatType.ApplicationLinkFormat)
-            //        device.Resources = CoreLinkFormat.Parse(Encoding.UTF8.GetString(e.Message.Payload))
-            //            .Select(r => new OicResourceWrapper(r) as IDeviceResource).ToList();
-            //}
-
-            //System.Diagnostics.Debug.WriteLine("Received message from {0}\n\t- Length: {1}",
-            //    e.Device.Endpoint.Authority,
-            //    e.Message.Payload?.Length ?? 0);
-
-            //MessageReceived?.Invoke(this, new CoapMessageEventArgs { Device = device, Message = e.Message });
         }
 
         /// <summary>
@@ -108,7 +82,8 @@ namespace CoapTest.Services
         /// </remarks>
         public async Task Discover()
         {
-            await _resourceDiscoveryClient.DiscoverAsync(true);
+            _logger?.LogDebug("Sending discovery request and clearing device cache");
+            await _resourceDiscoveryClient.DiscoverAsync(clearCached: true);
         }
 
         public void Stop()
