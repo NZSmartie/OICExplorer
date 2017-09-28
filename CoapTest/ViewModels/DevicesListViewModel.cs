@@ -11,14 +11,14 @@ using CoapTest.Services;
 
 namespace CoapTest.ViewModels
 {
-    public class DevicesViewModel : ReactiveObject, IRoutableViewModel, ISupportsActivation
+    public class DevicesListViewModel : ReactiveObject, IRoutableViewModel, ISupportsActivation
     {
         private readonly OicService _oicService;
 
-        public IReactiveDerivedList<OicDevice> Devices { get; private set; }
+        public IReactiveDerivedList<DeviceCellViewModel> Devices { get; private set; }
 
-        private OicDevice _selectedDevice;
-        public OicDevice SelectedDevice
+        private DeviceCellViewModel _selectedDevice;
+        public DeviceCellViewModel SelectedDevice
         {
             get => _selectedDevice;
             set => this.RaiseAndSetIfChanged(ref _selectedDevice, value);
@@ -35,7 +35,7 @@ namespace CoapTest.ViewModels
 
         public ViewModelActivator Activator { get; } = new ViewModelActivator();
 
-        public DevicesViewModel(OicService oicService = null, IScreen homeScreen = null)
+        public DevicesListViewModel(OicService oicService = null, IScreen homeScreen = null)
         {
             _oicService = oicService ?? Locator.Current.GetService<OicService>();
             HostScreen = homeScreen ?? Locator.Current.GetService<IScreen>();
@@ -54,7 +54,7 @@ namespace CoapTest.ViewModels
                         .DisposeWith(disposables);
 
                 Devices = _oicService.Devices
-                            .CreateDerivedCollection(x => (OicDevice)x, scheduler: RxApp.MainThreadScheduler)
+                            .CreateDerivedCollection(x => new DeviceCellViewModel(x), scheduler: RxApp.MainThreadScheduler)
                             .DisposeWith(disposables);
             });
         }

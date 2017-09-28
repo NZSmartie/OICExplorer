@@ -14,14 +14,12 @@
   
   <!-- https://stackoverflow.com/a/44158836/2255933 -->
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <None Remove="**\*.xaml" />
+    <EmbeddedResource Include="**\*.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" Exclude="App.xaml" />
+    </EmbeddedResource>
     <Compile Update="**\*.xaml.cs" SubType="Designer" DependentUpon="%(Filename)" />
-    <Compile Include="$(IntermediateOutputPath)*.g.cs" Visible="false" />
-    <None Include="$(BaseIntermediateOutputPath)" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,8 +30,8 @@
     <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.3" />
     <PackageReference Include="NZSmartie.CoAPNet" Version="0.3.9" />
     <PackageReference Include="NZSmartie.CoAPNet.Udp" Version="0.3.9" />
-    <PackageReference Include="NZSmartie.OICNet" Version="0.3.1-pre51" />
-    <PackageReference Include="NZSmartie.OICNet.CoAP" Version="0.3.1-pre51" />
+    <PackageReference Include="NZSmartie.OICNet" Version="0.3.1-pre52" />
+    <PackageReference Include="NZSmartie.OICNet.CoAP" Version="0.3.1-pre52" />
     <PackageReference Include="reactiveui" Version="7.4.0" />
     <PackageReference Include="reactiveui-xamforms" Version="7.4.0" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.0.4" />
@@ -43,5 +41,5 @@
     <PackageReference Include="System.Net.Primitives" Version="4.3.0" />
     <PackageReference Include="Xamarin.Forms" Version="2.3.4.270" />
   </ItemGroup>
-  
+
 </Project>

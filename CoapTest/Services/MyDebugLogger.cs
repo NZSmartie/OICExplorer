@@ -2,7 +2,7 @@
 
 using Splat;
 
-namespace CoapTest
+namespace CoapTest.Services
 {
     internal class MyDebugLogger : ILogger
     {

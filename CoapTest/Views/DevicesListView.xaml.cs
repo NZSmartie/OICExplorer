@@ -12,12 +12,12 @@ using CoapTest.Extensions;
 using CoapTest.Services;
 using CoapTest.ViewModels;
 
-namespace CoapTest
+namespace CoapTest.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPage : ReactiveContentPage<DevicesViewModel>
+    public partial class DevicesListView : ReactiveContentPage<DevicesListViewModel>
     {
-        public MainPage()
+        public DevicesListView()
         {
             InitializeComponent();
             this.WhenActivated(disposable =>

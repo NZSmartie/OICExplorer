@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<rxui:ReactiveViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+                       xmlns:local="clr-namespace:CoapTest"
+                       xmlns:converters="clr-namespace:CoapTest.Converters"
+                       x:Class="CoapTest.Views.DeviceCellView"
+                       x:TypeArguments="local:ViewModels.DeviceCellViewModel">
+    <StackLayout Orientation="Horizontal">
+        <Image x:Name="Thumbnail" StyleClass="Thumbnail" />
+        <StackLayout Orientation="Vertical">
+            <Label x:Name="HostName" StyleClass="Header" />
+            <Label x:Name="Resources" StyleClass="Subheader"/>
+        </StackLayout>
+    </StackLayout>
+
+</rxui:ReactiveViewCell>

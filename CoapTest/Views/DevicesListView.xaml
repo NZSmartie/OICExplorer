@@ -4,8 +4,9 @@
                        xmlns:r="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
                        xmlns:converters="clr-namespace:CoapTest.Converters"
                        xmlns:local="clr-namespace:CoapTest"
-                       x:Class="CoapTest.MainPage"
-                       x:TypeArguments="local:ViewModels.DevicesViewModel">
+                       xmlns:ui="clr-namespace:CoapTest.Views"
+                       x:Class="CoapTest.Views.DevicesListView"
+                       x:TypeArguments="local:ViewModels.DevicesListViewModel">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:CollectionCountConverter x:Key="CollectionCountConverter"/>
@@ -17,17 +18,9 @@
     <ListView x:Name="DeviceListView" 
               IsPullToRefreshEnabled="True">
         <ListView.ItemTemplate>
-        <DataTemplate>
-            <ViewCell>
-                <StackLayout Orientation="Horizontal">
-                    <Image Source="{converters:ImageResource node.png}" StyleClass="Thumbnail" />
-                    <StackLayout Orientation="Vertical">
-                        <Label Text="{Binding HostName}" StyleClass="Header" />
-                        <Label Text="{Binding Path=Resources, Converter={StaticResource CollectionCountConverter}, StringFormat=\{0\} Resource(s)}" StyleClass="Subheader"/>
-                    </StackLayout>
-                </StackLayout>
-            </ViewCell>
-        </DataTemplate>
+            <DataTemplate>
+                <ui:DeviceCellView ViewModel="{Binding .}" />
+            </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
 </r:ReactiveContentPage>

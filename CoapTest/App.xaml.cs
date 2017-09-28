@@ -5,6 +5,7 @@ using Splat;
 using Xamarin.Forms;
 
 using CoapTest.Services;
+using CoapTest.Views;
 using CoapTest.ViewModels;
 
 namespace CoapTest
@@ -33,11 +34,11 @@ namespace CoapTest
             // Register required ReactiveUI classes
             services.RegisterConstant<IScreen>(this);
             // View models
-            services.Register<IViewFor<DevicesViewModel>>(() => new MainPage());
+            services.Register<IViewFor<DevicesListViewModel>>(() => new DevicesListView());
 
             Router = new RoutingState();
             Router.NavigateAndReset
-                  .Execute(new DevicesViewModel())
+                  .Execute(new DevicesListViewModel())
                   .Subscribe();
 
             MainPage = new RoutedViewHost();
