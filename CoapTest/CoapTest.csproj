@@ -12,36 +12,16 @@
     <DebugType>full</DebugType>
   </PropertyGroup>
   
+  <!-- https://stackoverflow.com/a/44158836/2255933 -->
   <ItemGroup>
-    <None Remove="App.xaml" />
-    <None Remove="MainPage.xaml" />
-    <None Remove="ResourcePage.xaml" />
-    <None Remove="Dialogs\ColourPickerDialog.xaml" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <EmbeddedResource Include="App.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="MainPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ResourcePage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Dialogs\ColourPickerDialog.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    </ApplicationDefinition>
+    <Page Include="**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" Exclude="App.xaml" />
+    <Compile Update="**\*.xaml.cs" SubType="Designer" DependentUpon="%(Filename)" />
+    <Compile Include="$(IntermediateOutputPath)*.g.cs" Visible="false" />
+    <None Include="$(BaseIntermediateOutputPath)" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>
