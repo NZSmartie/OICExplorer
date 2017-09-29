@@ -3,9 +3,8 @@
                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                        xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
                        xmlns:local="clr-namespace:CoapTest"
-                       xmlns:converters="clr-namespace:CoapTest.Converters"
                        x:Class="CoapTest.Views.DeviceCellView"
-                       x:TypeArguments="local:ViewModels.DeviceCellViewModel">
+                       x:TypeArguments="local:ViewModels.DeviceViewModel">
     <StackLayout Orientation="Horizontal">
         <Image x:Name="Thumbnail" StyleClass="Thumbnail" />
         <StackLayout Orientation="Vertical">
@@ -13,5 +12,4 @@
             <Label x:Name="Resources" StyleClass="Subheader"/>
         </StackLayout>
     </StackLayout>
-
 </rxui:ReactiveViewCell>

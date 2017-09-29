@@ -1,41 +1,42 @@
-﻿using ReactiveUI;
-using ReactiveUI.XamForms;
-using System.Reactive.Disposables;
+﻿using System.Reactive.Disposables;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using ReactiveUI;
+using ReactiveUI.XamForms;
 
 using CoapTest.ViewModels;
 
 namespace CoapTest.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class DeviceCellView : ReactiveViewCell<DeviceViewModel>
-	{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class ResourceCellView : ReactiveViewCell<ResourceCellViewModel>
+    {
         protected readonly CompositeDisposable SubscriptionDisposables = new CompositeDisposable();
 
-        public DeviceCellView()
-		{
+        public ResourceCellView()
+        {
             InitializeComponent();
 
             // TODO: Move this to  helper class
             switch (Device.RuntimePlatform)
             {
                 case Device.Android:
-                    Thumbnail.Source = ImageSource.FromFile("node.png");
+                    ResourceThumbnail.Source = ImageSource.FromFile("blank.png");
                     break;
                 default:
-                    Thumbnail.Source = ImageSource.FromFile("Assets/node.png");
+                    ResourceThumbnail.Source = ImageSource.FromFile("Assets/blank.png");
                     break;
             }
 
             this.WhenActivated(disposables =>
-            {   
-                this.OneWayBind(ViewModel, vm => vm.Name, v => v.HostName.Text)
+            {
+                this.OneWayBind(ViewModel, vm => vm.Name, v => v.ResourceName.Text)
                     .DisposeWith(SubscriptionDisposables);
 
-                this.OneWayBind(ViewModel, vm => vm.ResourceCount, v => v.Resources.Text, x => $"{x} Resource{(x!=1?"s":"")}")
+                this.OneWayBind(ViewModel, vm => vm.RelativeUri, v => v.ResourceUri.Text)
                     .DisposeWith(SubscriptionDisposables);
             });
-		}
-	}
+        }
+    }
 }

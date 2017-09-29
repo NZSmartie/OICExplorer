@@ -1,15 +1,8 @@
-﻿using System;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
+﻿using System.Reactive.Disposables;
 using ReactiveUI;
 using ReactiveUI.XamForms;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using OICNet;
-
-using CoapTest.Extensions;
-using CoapTest.Services;
 using CoapTest.ViewModels;
 
 namespace CoapTest.Views

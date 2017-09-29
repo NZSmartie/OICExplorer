@@ -15,10 +15,10 @@ namespace CoapTest.ViewModels
     {
         private readonly OicService _oicService;
 
-        public IReactiveDerivedList<DeviceCellViewModel> Devices { get; private set; }
+        public IReactiveDerivedList<DeviceViewModel> Devices { get; private set; }
 
-        private DeviceCellViewModel _selectedDevice;
-        public DeviceCellViewModel SelectedDevice
+        private DeviceViewModel _selectedDevice;
+        public DeviceViewModel SelectedDevice
         {
             get => _selectedDevice;
             set => this.RaiseAndSetIfChanged(ref _selectedDevice, value);
@@ -46,6 +46,8 @@ namespace CoapTest.ViewModels
 
             this.WhenActivated((CompositeDisposable disposables) =>
             {
+                SelectedDevice = null;
+
                 _isRefreshing =
                     DiscoverDevicesCommand
                         .IsExecuting
@@ -54,9 +56,24 @@ namespace CoapTest.ViewModels
                         .DisposeWith(disposables);
 
                 Devices = _oicService.Devices
-                            .CreateDerivedCollection(x => new DeviceCellViewModel(x), scheduler: RxApp.MainThreadScheduler)
+                            .CreateDerivedCollection(x => new DeviceViewModel(x), scheduler: RxApp.MainThreadScheduler)
                             .DisposeWith(disposables);
+
+                this.WhenAnyValue(x => x.SelectedDevice)
+                    .Where(d => d != null)
+                    .Subscribe(d => LoadSelectedDevice(d))
+                    .DisposeWith(disposables);
+
             });
+        }
+
+        private void LoadSelectedDevice(DeviceViewModel device)
+        {
+            HostScreen
+                .Router
+                .Navigate
+                .Execute(device)
+                .Subscribe();
         }
     }
 }

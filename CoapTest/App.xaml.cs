@@ -35,6 +35,7 @@ namespace CoapTest
             services.RegisterConstant<IScreen>(this);
             // View models
             services.Register<IViewFor<DevicesListViewModel>>(() => new DevicesListView());
+            services.Register<IViewFor<DeviceViewModel>>(() => new DeviceView());
 
             Router = new RoutingState();
             Router.NavigateAndReset
