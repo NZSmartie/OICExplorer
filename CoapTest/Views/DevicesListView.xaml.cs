@@ -4,6 +4,7 @@ using ReactiveUI.XamForms;
 using Xamarin.Forms.Xaml;
 
 using CoapTest.ViewModels;
+using System.Reactive.Linq;
 
 namespace CoapTest.Views
 {
@@ -22,9 +23,11 @@ namespace CoapTest.Views
                         v => v.DeviceListView.ItemsSource)
                     .DisposeWith(disposable);
 
+                // Clear device cache and perform discovery request
                 this.BindCommand(ViewModel, 
                         vm => vm.DiscoverDevicesCommand, 
-                        v => v.RefreshToolbarIcon)
+                        v => v.RefreshToolbarIcon,
+                        Observable.Return(true))
                     .DisposeWith(disposable);
                 
                 this.BindCommand(ViewModel,

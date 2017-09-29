@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
@@ -24,7 +25,14 @@ namespace CoapTest.ViewModels
             set => this.RaiseAndSetIfChanged(ref _selectedDevice, value);
         }
 
-        public ReactiveCommand DiscoverDevicesCommand { get; private set; }
+        DeviceViewModel _deviceAppearing;
+        public DeviceViewModel DeviceAppearing
+        {
+            get { return _deviceAppearing; }
+            set { this.RaiseAndSetIfChanged(ref _deviceAppearing, value); }
+        }
+
+        public ReactiveCommand<bool, Unit> DiscoverDevicesCommand { get; private set; }
 
         private ObservableAsPropertyHelper<bool> _isRefreshing;
         public bool IsRefreshing => _isRefreshing.Value;
@@ -42,10 +50,11 @@ namespace CoapTest.ViewModels
 
 
             DiscoverDevicesCommand = 
-                ReactiveCommand.CreateFromObservable(() => Observable.FromAsync(_oicService.Discover));
+                ReactiveCommand.CreateFromTask<bool>(_oicService.Discover);
 
             this.WhenActivated((CompositeDisposable disposables) =>
             {
+                // Ensure no device is selected, otherwise NavigateToDevice() will be invoked.
                 SelectedDevice = null;
 
                 _isRefreshing =
@@ -61,13 +70,19 @@ namespace CoapTest.ViewModels
 
                 this.WhenAnyValue(x => x.SelectedDevice)
                     .Where(d => d != null)
-                    .Subscribe(d => LoadSelectedDevice(d))
+                    .Subscribe(d => NavigateToDevice(d))
                     .DisposeWith(disposables);
 
+                // Automatically scan for devices every 30 seconds
+                Observable
+                    .Timer(TimeSpan.Zero, TimeSpan.FromSeconds(30))
+                    .Select(_ => false)
+                    .InvokeCommand(DiscoverDevicesCommand)
+                    .DisposeWith(disposables);
             });
         }
 
-        private void LoadSelectedDevice(DeviceViewModel device)
+        private void NavigateToDevice(DeviceViewModel device)
         {
             HostScreen
                 .Router

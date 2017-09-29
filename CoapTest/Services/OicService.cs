@@ -80,10 +80,13 @@ namespace CoapTest.Services
         /// Servers replying to multicast messages may wait a random leisure period spanning from a few sends up to a minute.
         /// Discovery isn't a fast process. The default leisure period is 5 seconds
         /// </remarks>
-        public async Task Discover()
+        /// <param name="clearCache">If <c>true</c>; Will clear the device cache before sending discovery request.</param>
+        public async Task Discover(bool clearCache)
         {
-            _logger?.LogDebug("Sending discovery request and clearing device cache");
-            await _resourceDiscoveryClient.DiscoverAsync(clearCached: true);
+            _logger?.LogDebug(clearCache 
+                ? "Sending discovery request and clearing device cache" 
+                : "Sending discovery request");
+            await _resourceDiscoveryClient.DiscoverAsync(clearCache);
         }
 
         public void Stop()
