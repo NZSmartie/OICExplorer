@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<rxui:ReactiveMasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+                               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                               xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+                               xmlns:ui="clr-namespace:OICExplorer.Views"
+                               xmlns:local="clr-namespace:OICExplorer"
+                               xmlns:converters="clr-namespace:OICExplorer.Converters"
+                               x:Class="OICExplorer.DeviceView"
+                               x:TypeArguments="local:ViewModels.DeviceViewModel">
+    <MasterDetailPage.ToolbarItems>
+        <ToolbarItem Text="Get" Icon="{converters:ImageResource download.png}" />
+        <ToolbarItem Text="Put" Icon="{converters:ImageResource upload.png}"/>
+        <ToolbarItem Text="Post" Icon="{converters:ImageResource add.png}"/>
+        <ToolbarItem Text="Delete" Icon="{converters:ImageResource remove.png}"/>
+    </MasterDetailPage.ToolbarItems>
+    <MasterDetailPage.Master>
+        <ContentPage Title="Does anyone ever see this?!">
+            <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="DeviceThumbnail" StyleClass="Thumbnail" />
+                    <StackLayout Orientation="Vertical">
+                        <Label x:Name="DeviceHostName" StyleClass="Header" />
+                        <Label x:Name="DeviceResources" StyleClass="Subheader"/>
+                    </StackLayout>
+                </StackLayout>
+                <ListView x:Name="ResoucesListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ui:ResourceCellView ViewModel="{Binding .}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <ContentPage>
+            <StackLayout Orientation="Vertical">
+                <Label>Resource Metadata goes here</Label>
+                <Entry x:Name="ResourceUriEntry" Text="{Binding ResourceUri}" StyleClass="Body" />
+                <ScrollView VerticalOptions="Fill" Orientation="Vertical">
+                    <Label x:Name="Output" FormattedText="{Binding MessageLog, Mode=OneWay}" />
+                </ScrollView>
+            </StackLayout>
+        </ContentPage>
+    </MasterDetailPage.Detail>
+</rxui:ReactiveMasterDetailPage>

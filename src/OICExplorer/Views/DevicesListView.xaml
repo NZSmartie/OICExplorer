@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<r:ReactiveContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:r="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+                       xmlns:converters="clr-namespace:OICExplorer.Converters"
+                       xmlns:local="clr-namespace:OICExplorer"
+                       xmlns:ui="clr-namespace:OICExplorer.Views"
+                       x:Class="OICExplorer.Views.DevicesListView"
+                       x:TypeArguments="local:ViewModels.DevicesListViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:CollectionCountConverter x:Key="CollectionCountConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="RefreshToolbarIcon" Name="Refresh" Icon="{converters:ImageResource refresh.png}" Order="Primary" Priority="0"/>
+    </ContentPage.ToolbarItems>
+    <ListView x:Name="DeviceListView" 
+              IsPullToRefreshEnabled="True">
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ui:DeviceCellView ViewModel="{Binding .}" />
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+</r:ReactiveContentPage>

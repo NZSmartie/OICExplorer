@@ -1,8 +1,16 @@
-# CoapTest
+# OIC Explorer
 
-A tool to discover and explore CoAP devices on the network.
+A cross-platform, mobile-first tool to discover and explore OIC devices on the local network.
 
-This project is experimental as I'm learning how to use Xamarin.Forms, and my (CoAP.Net)[/NZSmartie/CoAP.Net] library.
-So it looks terrible, and doesn't do a whole lot (Not yet anyway).
+This project is built upon [Xamarin.Forms](https://www.xamarin.com/forms), [ReactiveUI](https://reactiveui.net/) and uses [OICNet](https://github.com/NZSmartie/OICNet) with [CoAPNet](https://github.com/NZSmartie/CoAP.Net).
 
-This project targets Universal Windows Platform (UWP) and Android. Since I don't own any Apple devices, I'm unable to build or test for iOS (Sorry).
+## Status
+
+So it looks terrible, and doesn't do a whole lot yet. But it's a work in progress that will hopefully be really useful for debugging IoT devices that take advantage of OIC.
+
+## Target Platforms
+
+ - Universal Windows Platform (UWP) 
+ - Android. 
+
+Since I don't own any Apple devices, I'm unable to build or test for iOS (Sorry, contact me if you want to dontate hardware!).
