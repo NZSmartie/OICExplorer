@@ -7,13 +7,7 @@
                                xmlns:converters="clr-namespace:OICExplorer.Converters"
                                x:Class="OICExplorer.DeviceView"
                                x:TypeArguments="local:ViewModels.DeviceViewModel">
-    <MasterDetailPage.ToolbarItems>
-        <ToolbarItem Text="Get" Icon="{converters:ImageResource download.png}" />
-        <ToolbarItem Text="Put" Icon="{converters:ImageResource upload.png}"/>
-        <ToolbarItem Text="Post" Icon="{converters:ImageResource add.png}"/>
-        <ToolbarItem Text="Delete" Icon="{converters:ImageResource remove.png}"/>
-    </MasterDetailPage.ToolbarItems>
-    <MasterDetailPage.Master>
+    <rxui:ReactiveMasterDetailPage.Master>
         <ContentPage Title="Does anyone ever see this?!">
             <StackLayout Orientation="Vertical">
                 <StackLayout Orientation="Horizontal">
@@ -23,7 +17,7 @@
                         <Label x:Name="DeviceResources" StyleClass="Subheader"/>
                     </StackLayout>
                 </StackLayout>
-                <ListView x:Name="ResoucesListView">
+                <ListView x:Name="ResourcesListView">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ui:ResourceCellView ViewModel="{Binding .}" />
@@ -32,16 +26,8 @@
                 </ListView>
             </StackLayout>
         </ContentPage>
-    </MasterDetailPage.Master>
-    <MasterDetailPage.Detail>
-        <ContentPage>
-            <StackLayout Orientation="Vertical">
-                <Label>Resource Metadata goes here</Label>
-                <Entry x:Name="ResourceUriEntry" Text="{Binding ResourceUri}" StyleClass="Body" />
-                <ScrollView VerticalOptions="Fill" Orientation="Vertical">
-                    <Label x:Name="Output" FormattedText="{Binding MessageLog, Mode=OneWay}" />
-                </ScrollView>
-            </StackLayout>
-        </ContentPage>
-    </MasterDetailPage.Detail>
+    </rxui:ReactiveMasterDetailPage.Master>
+    <rxui:ReactiveMasterDetailPage.Detail>
+        <local:Views.ViewModelPageHost x:Name="ResourceViewModel"/>
+    </rxui:ReactiveMasterDetailPage.Detail>
 </rxui:ReactiveMasterDetailPage>

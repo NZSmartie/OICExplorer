@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Reactive;
+using System.Reactive.Linq;
 using System.Reactive.Disposables;
 using ReactiveUI;
 using ReactiveUI.XamForms;
@@ -44,7 +46,18 @@ namespace OICExplorer
                 this.OneWayBind(ViewModel, vm => vm.ResourceCount, v => v.DeviceResources.Text, x => $"{x} Resource{(x != 1 ? "s" : "")}")
                     .DisposeWith(disposables);
 
-                this.OneWayBind(ViewModel, vm => vm.Resources, v => v.ResoucesListView.ItemsSource)
+                this.OneWayBind(ViewModel, vm => vm.Resources, v => v.ResourcesListView.ItemsSource)
+                    .DisposeWith(disposables);
+
+                this.Bind(ViewModel, vm => vm.SelectedResource, v => v.ResourcesListView.SelectedItem)
+                    .DisposeWith(disposables);
+
+                ViewModel.WhenAnyValue(vm => vm.SelectedResource)
+                         .Where(_ => MasterBehavior == MasterBehavior.Popover)
+                         .Subscribe(r => IsPresented = r != null)
+                         .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel, vm => vm.ActiveResource, v => v.ResourceViewModel.ViewModel)
                     .DisposeWith(disposables);
             });
         }

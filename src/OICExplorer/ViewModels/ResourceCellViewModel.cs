@@ -6,17 +6,17 @@ namespace OICExplorer.ViewModels
 {
     public class ResourceCellViewModel : ReactiveObject
     {
-        private readonly IOicResource _resource;
+        public IOicResource Resource { get; }
 
         // TODO: Image property
 
-        public string Name => _resource.Name;
+        public string Name => Resource.Name;
 
-        public string RelativeUri => _resource.RelativeUri;
+        public string RelativeUri => Resource.RelativeUri;
 
         public ResourceCellViewModel(IOicResource resource)
         {
-            _resource = resource;
+            Resource = resource;
         }
     }
 }

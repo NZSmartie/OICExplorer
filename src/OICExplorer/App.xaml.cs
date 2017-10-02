@@ -36,6 +36,7 @@ namespace OICExplorer
             // View models
             services.Register<IViewFor<DevicesListViewModel>>(() => new DevicesListView());
             services.Register<IViewFor<DeviceViewModel>>(() => new DeviceView());
+            services.Register<IViewFor<ResourceEditorViewModel>>(() => new ResourceEditorView());
 
             Router = new RoutingState();
             Router.NavigateAndReset
