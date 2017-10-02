@@ -5,7 +5,7 @@ using Android.OS;
 
 namespace OICExplorer.Droid
 {
-    [Activity(Label = "OICExplorer", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/AppTheme")]
+    [Activity(Label = "OIC Explorer", MainLauncher = true, Icon = "@drawable/icon", Theme = "@style/AppTheme")]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsApplicationActivity
     {
         protected override void OnCreate(Bundle bundle)
