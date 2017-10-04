@@ -3,15 +3,16 @@
   <PropertyGroup>
     <AssemblyName>OICExplorer</AssemblyName>
     <RootNamespace>OICExplorer</RootNamespace>
-    <TargetFramework>netstandard1.4</TargetFramework>
+    <TargetFrameworks>netstandard1.4;netstandard2.0</TargetFrameworks>
     <PackageTargetFallback>portable-net45+win8+wpa81+wp8</PackageTargetFallback>
     <Configurations>Debug;Release</Configurations>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
   </PropertyGroup>
   
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugType>full</DebugType>
   </PropertyGroup>
-  
+
   <!-- https://stackoverflow.com/a/44158836/2255933 -->
   <ItemGroup>
     <None Remove="**\*.xaml" />
@@ -19,7 +20,7 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Update="**\*.xaml.cs" SubType="Designer" DependentUpon="%(Filename)" />
+    <Compile Update="**\*.xaml.cs" SubType="Code" DependentUpon="%(Filename)" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,14 +33,22 @@
     <PackageReference Include="NZSmartie.CoAPNet.Udp" Version="0.3.9" />
     <PackageReference Include="NZSmartie.OICNet" Version="1.0.0-alpha1" />
     <PackageReference Include="NZSmartie.OICNet.CoAP" Version="1.0.0-alpha1" />
-    <PackageReference Include="reactiveui" Version="7.4.0" />
-    <PackageReference Include="reactiveui-xamforms" Version="7.4.0" />
-    <PackageReference Include="Rg.Plugins.Popup" Version="1.0.4" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
     <PackageReference Include="System.Net.NetworkInformation" Version="4.3.0" />
     <PackageReference Include="System.Net.Primitives" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.4'">
+    <PackageReference Include="reactiveui" Version="7.4.0" />
+    <PackageReference Include="reactiveui-xamforms" Version="7.4.0" />
     <PackageReference Include="Xamarin.Forms" Version="2.3.4.270" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="reactiveui" Version="8.0.0-alpha0089" />
+    <PackageReference Include="reactiveui-xamforms" Version="8.0.0-alpha0089" />
+    <PackageReference Include="Xamarin.Forms" Version="2.4.0.282" />
   </ItemGroup>
 
 </Project>

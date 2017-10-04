@@ -7,14 +7,10 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using Rg.Plugins.Popup;
-using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Services;
-
 namespace OICExplorer.Dialogs
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ColourPickerDialog : PopupPage
+    public partial class ColourPickerDialog : ContentPage
     {
         public ColourPickerDialog()
         {
@@ -23,7 +19,7 @@ namespace OICExplorer.Dialogs
 
         private void OnClose(object sender, EventArgs e)
         {
-            PopupNavigation.PopAsync();
+            Navigation.PopModalAsync();
         }
     }
 }

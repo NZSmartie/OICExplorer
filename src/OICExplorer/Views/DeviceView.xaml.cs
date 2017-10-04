@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.ComponentModel;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Disposables;
 using ReactiveUI;
@@ -10,12 +8,6 @@ using ReactiveUI.XamForms;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using Rg.Plugins.Popup.Extensions;
-
-using OICExplorer.Extensions;
-using OICExplorer.Services;
-using Newtonsoft.Json;
-using OICNet;
 using OICExplorer.ViewModels;
 
 namespace OICExplorer
@@ -66,7 +58,8 @@ namespace OICExplorer
         {
             base.OnAppearing();
 
-            IsPresented = true;
+            if (Device.RuntimePlatform == Device.Android)
+                IsPresented = true;
         }
     }
 }
