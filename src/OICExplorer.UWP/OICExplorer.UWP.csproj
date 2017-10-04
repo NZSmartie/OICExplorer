@@ -7,8 +7,8 @@
     <ProjectGuid>{4E7C9B9F-5533-4916-BF39-58E8B7047C70}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CoapTest.UWP</RootNamespace>
-    <AssemblyName>CoapTest.UWP</AssemblyName>
+    <RootNamespace>OICExplorer.UWP</RootNamespace>
+    <AssemblyName>OICExplorer.UWP</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
