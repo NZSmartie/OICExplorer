@@ -28,6 +28,12 @@
         </ContentPage>
     </rxui:ReactiveMasterDetailPage.Master>
     <rxui:ReactiveMasterDetailPage.Detail>
-        <local:Views.ViewModelPageHost x:Name="ResourceViewModel"/>
+        <local:Views.ViewModelPageHost x:Name="ResourceViewModel">
+            <ContentPage>
+                <StackLayout>
+                    <Label>Please select a resource</Label>
+                </StackLayout>
+            </ContentPage>
+        </local:Views.ViewModelPageHost>
     </rxui:ReactiveMasterDetailPage.Detail>
 </rxui:ReactiveMasterDetailPage>

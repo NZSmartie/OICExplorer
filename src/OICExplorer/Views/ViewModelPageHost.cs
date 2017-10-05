@@ -16,6 +16,7 @@ namespace OICExplorer.Views
     /// to be displayed should be assigned to the <see cref="ViewModel"/> property. Optionally, the chosen view can be
     /// customized by specifying a contract via <see cref="ViewContractObservable"/> or <see cref="ViewContract"/>.
     /// </summary>
+    [ContentProperty(nameof(DefaultPage))]
     public class ViewModelPageHost : Page, IPageContainer<Page>, IViewFor
     {
         /// <summary>
