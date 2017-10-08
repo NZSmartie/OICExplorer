@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="7319c643-4522-4907-b128-6cb34733f134" Publisher="CN=nzsma" Version="0.1.0.0" />
-  <mp:PhoneIdentity PhoneProductId="7319c643-4522-4907-b128-6cb34733f134" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="54507NZSmartie.OICExplorer" Publisher="CN=75145F51-8510-4789-AB58-6A7572EC00BA" Version="0.1.1.0" />
+  <mp:PhoneIdentity PhoneProductId="a6b49044-60b1-4d2d-9fb6-8e720ec0eaaa" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>App2</DisplayName>
-    <PublisherDisplayName>nzsma</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <DisplayName>OIC Explorer</DisplayName>
+    <PublisherDisplayName>NZSmartie</PublisherDisplayName>
+    <Logo>Assets\Logo\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
@@ -15,10 +15,15 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="OICExplorer.App">
-      <uap:VisualElements DisplayName="OIC Explorer" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="A cross-platform, mobile-first tool to discover and explore OIC devices on the local network." BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
+      <uap:VisualElements DisplayName="OIC Explorer" Square150x150Logo="Assets\Logo\Square150x150Logo.png" Square44x44Logo="Assets\Logo\Square44x44Logo.png" Description="A cross-platform, mobile-first tool to discover and explore OIC devices on the local network." BackgroundColor="transparent">
+        <uap:LockScreen Notification="badge" BadgeLogo="Assets\Logo\BadgeLogo.png" />
+        <uap:DefaultTile Wide310x150Logo="Assets\Logo\Wide310x150Logo.png" Square310x310Logo="Assets\Logo\LargeTile.png" Square71x71Logo="Assets\Logo\SmallTile.png" ShortName="OIC Explorer">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="wide310x150Logo" />
+            <uap:ShowOn Tile="square310x310Logo" />
+          </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:SplashScreen Image="Assets\Logo\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
