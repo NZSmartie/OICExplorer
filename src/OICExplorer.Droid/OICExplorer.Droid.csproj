@@ -204,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FontDrawable.cs" />
+    <Compile Include="Renderers\DeviceViewRenderer.cs" />
     <Compile Include="SplashActivity.cs" />
     <Compile Include="Renderers\ColorPickerRenderer.cs" />
     <Compile Include="Renderers\IconPageRenderer.cs" />

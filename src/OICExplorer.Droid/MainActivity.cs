@@ -2,6 +2,10 @@
 using Android.Content.PM;
 using Android.Widget;
 using Android.OS;
+using Xamarin.Forms;
+using Android.Content;
+using Android.Util;
+using Android.Views;
 
 namespace OICExplorer.Droid
 {
@@ -10,6 +14,8 @@ namespace OICExplorer.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
+            //Window.RequestFeature(WindowFeatures.ActionBarOverlay);
+
             base.OnCreate(bundle);
 
             global::Xamarin.Forms.Forms.Init(this, bundle);

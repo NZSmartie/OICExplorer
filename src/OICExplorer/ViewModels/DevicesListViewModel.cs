@@ -86,7 +86,7 @@ namespace OICExplorer.ViewModels
         {
             HostScreen
                 .Router
-                .Navigate
+                .NavigateToModal()
                 .Execute(device)
                 .Subscribe();
         }
