@@ -3,9 +3,9 @@
   <color name="background">#f4f4f4</color>
 
   <color name="primary">#933687</color>
-  <color name="primary_dark">#933687</color>
-  <color name="primary_light">#933687</color>
-  <color name="accent">#933687</color>
+  <color name="primary_dark">#762b6c</color>
+  <color name="primary_light">#ce93d8</color>
+  <color name="accent">#8e24aa</color>
   <color name="primary_text">#212121</color>
   <color name="secondary_text">#757575</color>
   <color name="icons">#FFFFFF</color>
