@@ -62,11 +62,27 @@ namespace OICExplorer
             });
         }
 
+        protected override bool OnBackButtonPressed()
+        {
+            if(Device.RuntimePlatform == Device.Android)
+            {
+                if (!IsPresented)
+                    IsPresented = true;
+                else
+                    Navigation.PopAsync();
+
+                return true;
+            }
+
+            return base.OnBackButtonPressed();
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            IsPresented = true;
+            if (Device.RuntimePlatform == Device.Android)
+                IsPresented = true;
         }
     }
 }
