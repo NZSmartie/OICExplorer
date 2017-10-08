@@ -1,19 +1,23 @@
 ﻿using Android.App;
-using Android.Content.PM;
-using Android.Widget;
 using Android.OS;
+
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.Android;
 
 namespace OICExplorer.Droid
 {
     [Activity(Label = "OIC Explorer", Icon = "@drawable/icon", Theme = "@style/AppTheme")]
-    public class MainActivity : Xamarin.Forms.Platform.Android.FormsApplicationActivity
+    public class MainActivity : FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
+            ToolbarResource = Resource.Layout.Toolbar;
+            TabLayoutResource = Resource.Layout.Tabbar;
+
             base.OnCreate(bundle);
 
-            global::Xamarin.Forms.Forms.Init(this, bundle);
-            LoadApplication(new OICExplorer.App());
+            Forms.Init(this, bundle);
+            LoadApplication(new App());
         }
     }
 }

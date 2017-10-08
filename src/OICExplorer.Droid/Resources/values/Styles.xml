@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <style name="AppTheme" parent="@style/AppTheme.Base"/>
+
+  <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorPrimary">@color/primary</item>
+    <item name="colorPrimaryDark">@color/primary_dark</item>
+    <item name="colorAccent">@color/accent</item>
+    <item name="android:colorControlHighlight">@color/primary_light</item>
+    <item name="android:colorBackground">@color/background</item>
+    <item name="android:windowBackground">@color/background</item>
+
+    <!-- You can also set colorControlNormal, colorControlActivated
+         colorControlHighlight and colorSwitchThumbNormal. -->
+  </style>
+
+  <style name="AppTheme.Splash" parent="@style/AppTheme.Base">
+    <item name="android:windowActionBar">false</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="android:windowBackground">@drawable/splash_screen</item>
+  </style>
+
+</resources>
