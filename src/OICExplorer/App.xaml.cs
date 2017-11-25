@@ -7,6 +7,8 @@ using Xamarin.Forms;
 using OICExplorer.Services;
 using OICExplorer.Views;
 using OICExplorer.ViewModels;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace OICExplorer
 {
@@ -17,6 +19,13 @@ namespace OICExplorer
         public App()
         {
             InitializeComponent();
+
+            // Setup AppCenter Analyitics/Crash reporting
+            Microsoft.AppCenter.AppCenter.Start(
+                "android=2fb059c1-aec4-430e-bd51-78218aad4608;" + 
+                "uwp=98b3d133-0fff-4602-a039-bcc4731cab7a;" +
+                "ios=d654e563-98e7-4352-a877-6339d81ffb0a",
+                typeof(Analytics), typeof(Crashes));
 
             var services = Locator.CurrentMutable;
 
