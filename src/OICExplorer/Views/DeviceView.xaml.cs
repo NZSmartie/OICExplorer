@@ -10,7 +10,7 @@ using ReactiveUI.XamForms;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-using Rg.Plugins.Popup.Extensions;
+//using Rg.Plugins.Popup.Extensions;
 
 using OICExplorer.Extensions;
 using OICExplorer.Services;

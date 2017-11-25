@@ -1,18 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<rg:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
-              xmlns:controls="clr-namespace:OICExplorer.Controls"
-              xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              x:Class="OICExplorer.Dialogs.ColourPickerDialog">
-    <rg:PopupPage.Content>
-        <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand" Padding="20, 20, 20, 20">
-            <ScrollView Orientation="Vertical">
-                <StackLayout BackgroundColor="#FFFFFFFF" Padding="0, 10, 0, 0">
-                    <Label Text="Pick a Colour" TextColor="Gray" FontSize="20" HorizontalOptions="Center"></Label>
-                    <controls:ColorPickerView x:Name="ColorPicker" />
-                    <Button Margin="10" Text="Close" Clicked="OnClose"/>
-                </StackLayout>
-            </ScrollView>
-        </StackLayout>
-    </rg:PopupPage.Content>
-</rg:PopupPage>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:controls="clr-namespace:OICExplorer.Controls"
+             xmlns:rg="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OICExplorer.Dialogs.ColourPickerDialog">
+    <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand" Padding="20, 20, 20, 20">
+        <ScrollView Orientation="Vertical">
+            <StackLayout BackgroundColor="#FFFFFFFF" Padding="0, 10, 0, 0">
+                <Label Text="Pick a Colour" TextColor="Gray" FontSize="20" HorizontalOptions="Center"></Label>
+                <controls:ColorPickerView x:Name="ColorPicker" />
+                <Button Margin="10" Text="Close" Clicked="OnClose"/>
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
+</ContentPage>

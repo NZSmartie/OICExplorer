@@ -1,4 +1,5 @@
 using Android.App;
+using Android.Content;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
@@ -7,6 +8,10 @@ namespace OICExplorer.Droid
 {
     public class IconPageRenderer : PageRenderer
     {
+        public IconPageRenderer(Context context)
+            : base(context)
+        { }
+
         protected override void OnAttachedToWindow()
         {
             base.OnAttachedToWindow();

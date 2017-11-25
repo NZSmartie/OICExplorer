@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 using OICExplorer.Controls;
+using Android.Content;
 
 [assembly: ExportRenderer(typeof(ColorPickerView), typeof(OICExplorer.Droid.ColorPickerRenderer))]
 namespace OICExplorer.Droid
@@ -31,7 +32,8 @@ namespace OICExplorer.Droid
 
         private ColorObserver _colorObserver = new ColorObserver();
 
-        public ColorPickerRenderer()
+        public ColorPickerRenderer(Context context)
+            : base(context)
         {
             _colorObserver.ColorChanged += OnColorChanged;
         }
