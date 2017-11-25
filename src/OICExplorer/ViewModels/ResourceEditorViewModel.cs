@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using System.Runtime;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -8,6 +10,7 @@ using Splat;
 
 using OICNet;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace OICExplorer.ViewModels
 {
@@ -55,6 +58,8 @@ namespace OICExplorer.ViewModels
         //private IOicResourceRepository _repository;
 
         //public IOicResourceRepository Repository { get => _repository; } 
+
+        public Dictionary<string, ValueViewModel> Values { get; } = new Dictionary<string, ValueViewModel>();
 
         public enum ResourceOperation
         {
@@ -111,6 +116,14 @@ namespace OICExplorer.ViewModels
         {
             _repository = repository;
             _resource = resource;
+
+            // TODO: update this when upgrading to netstandard2.0
+            var properties = _resource.GetType()
+                .GetRuntimeProperties()
+                .Select(p => (ValueViewModel)System.Activator.CreateInstance(typeof(ValueViewModel<>).MakeGenericType(p.PropertyType), p.Name, p.GetValue(_resource)));
+
+            foreach (var property in properties)
+                Values.Add(property.Name, property);
 
             RelativeUri = _resource.RelativeUri;
 

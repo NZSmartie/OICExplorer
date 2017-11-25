@@ -38,5 +38,11 @@ namespace OICExplorer.Views
                     .DisposeWith(SubscriptionDisposables);
             });
         }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            SubscriptionDisposables.Clear();
+        }
     }
 }

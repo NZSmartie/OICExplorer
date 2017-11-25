@@ -19,7 +19,7 @@
               IsPullToRefreshEnabled="True">
         <ListView.ItemTemplate>
             <DataTemplate>
-                <ui:DeviceCellView ViewModel="{Binding .}" />
+                <ui:DeviceCellView />
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>

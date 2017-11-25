@@ -20,7 +20,7 @@
                 <ListView x:Name="ResourcesListView">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ui:ResourceCellView ViewModel="{Binding .}" />
+                            <ui:ResourceCellView/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

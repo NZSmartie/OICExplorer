@@ -18,7 +18,14 @@
             <Label>Resource Metadata goes here</Label>
             <Entry x:Name="ResourceUriEntry" StyleClass="Body" />
             <ScrollView VerticalOptions="Fill" Orientation="Vertical">
-                <Label x:Name="Output" FormattedText="{Binding MessageLog, Mode=OneWay}" />
+                <ListView CachingStrategy="RecycleElement"
+                          x:Name="ValueListView">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ui:ValueCellView />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </ScrollView>
         </StackLayout>
     </rxui:ReactiveContentPage.Content>

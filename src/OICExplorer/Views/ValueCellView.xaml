@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<rxui:ReactiveViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+                       xmlns:local="clr-namespace:OICExplorer"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:rxui="clr-namespace:ReactiveUI.XamForms;assembly=ReactiveUI.XamForms"
+                       x:Class="OICExplorer.Views.ValueCellView"
+                       x:TypeArguments="local:ViewModels.ValueViewModel">
+    <rxui:ReactiveViewCell.View>
+        <StackLayout Orientation="Vertical">
+            <Label x:Name="Name" StyleClass="Header"/>
+            <Label x:Name="Value" StyleClass="Subheader"/>
+        </StackLayout>
+    </rxui:ReactiveViewCell.View>
+</rxui:ReactiveViewCell>

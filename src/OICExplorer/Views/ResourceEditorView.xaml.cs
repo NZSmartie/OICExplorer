@@ -28,6 +28,9 @@ namespace OICExplorer
                 this.Bind(ViewModel, vm => vm.RelativeUri, v => v.ResourceUriEntry.Text)
                     .DisposeWith(disposables);
 
+                this.OneWayBind(ViewModel, vm => vm.Values.Values, v => v.ValueListView.ItemsSource)
+                    .DisposeWith(disposables);
+
                 this.BindCommand(ViewModel, 
                         vm => vm.RetreiveResourceCommand, 
                         v => v.RetreiveToolbarItem)
