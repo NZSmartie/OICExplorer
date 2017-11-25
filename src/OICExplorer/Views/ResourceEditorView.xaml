@@ -5,7 +5,7 @@
                           xmlns:ui="clr-namespace:OICExplorer.Views"
                           xmlns:local="clr-namespace:OICExplorer"
                           xmlns:converters="clr-namespace:OICExplorer.Converters"
-                          x:Class="OICExplorer.ResourceEditorView"
+                          x:Class="OICExplorer.Views.ResourceEditorView"
                           x:TypeArguments="local:ViewModels.ResourceEditorViewModel">
     <rxui:ReactiveContentPage.ToolbarItems>
         <ToolbarItem x:Name="RetreiveToolbarItem" Text="Get" Icon="{converters:ImageResource download.png}" />

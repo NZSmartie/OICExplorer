@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 using OICNet;
 using OICExplorer.ViewModels;
 
-namespace OICExplorer
+namespace OICExplorer.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ResourceEditorView : ReactiveContentPage<ResourceEditorViewModel>
